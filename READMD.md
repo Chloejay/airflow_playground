@@ -5,7 +5,8 @@ $ airflow webserver -p 8080
 $ airflow scheduler
 ```
 
-note for the scheduler style format 
+```bash
+#note for the scheduler style format 
  ┌─────── minute (0 - 59)
   │ ┌────── hour (0 - 23)
   │ │ ┌───── day of the month (1 - 31)
@@ -25,4 +26,7 @@ note for the scheduler style format
  @weekly   Run once a week at midnight on Sunday morning.   0 0 * * 0
  @monthly  Run once a month at midnight on the first day of the month.   0 0 1 * *
  @yearly   Run once a year at midnight on January 1.    0 0 1 1 *
+ ```
+ 
+ 
 
