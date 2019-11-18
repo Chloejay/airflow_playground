@@ -2,8 +2,8 @@ from config import *
   
 default_args = {
     'owner': 'cj',
-    'start_date': datetime(2019, 11, 10),
-    # 'depends_on_past': False,
+    'start_date': dt(2019, 11, 10),
+    'depends_on_past': False,
     'email': ['ji.jie@edhec.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -14,9 +14,12 @@ dag = DAG(
     dag_id="airflow_test",
     description="Download rocket pictures from public api for airlfow learning.",
     # start_date=airflow.utils.dates.days_ago(14),
+    # start_date=dt.dt(year=2019, month=10, day=1),
     default_args=default_args,
-    schedule_interval="@daily"
-)
+    schedule_interval="@daily",
+    #backfill
+    catchup=False,
+ )
 
 download = BashOperator(
     task_id="download",
