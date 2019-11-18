@@ -6,13 +6,6 @@ $ export AIRFLOW_HOME=<path_to_airflow_home>
 $ pip install airflow[postgres]||[mysql] 
 #init the metadata db
 $ airflow initdb 
-#in the airflow webserver to config database connection
-
-#to  init the oeprators for the task, once the operator is instantiated, it is referred as the 'task'. 
-
-#need to init the mysql.hook to load the raw data to the new database; 
-
-# cast all the individual data field values into a tuple
 ```
 
 ```bash
@@ -44,9 +37,9 @@ $ airflow scheduler
  ```
  
  #### how to add the data incrementally or in partitions
- as the date as the unit, to load the data in the daily base, so can reach the real time data performance,  also don't need to load the whole dataset each time, we run something base on the history
+ as the date as the unit, to load the data in the daily base, so can reach the real time data performance,  also don't need to load the whole dataset each time, we run something base on the history<br/>
 
- backfill is to fix the past hole in the dataset
+ backfill is to fix the past hole in the dataset<br/>
  implement with apache spark 
 
 
