@@ -8,6 +8,7 @@ use <strong>kafka-python</strong> as the main learning framework, along with zoo
 <i><small>img source: from tutorial</small></i> 
 
 <h6>get api data into the kafka and load to the DWH</h6> 
+
 ```bash 
 # make sure kafka and zookeeper are both running 
 $ kafka-server-start /usr/local/etc/kafka/server.properties 
