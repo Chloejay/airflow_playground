@@ -13,6 +13,12 @@ $ airflow webserver -p 8080
 $ airflow scheduler
 ```
 
+
+<figcaption>
+<img src='dag.png'/>
+<p style='padding-left: 120px'>the sample data running dag</p>
+<figcCaption>
+
 ```bash
 #note for the scheduler style format 
  ┌─────── minute (0 - 59)
@@ -37,12 +43,8 @@ $ airflow scheduler
  ```
  
  #### how to add the data incrementally or in partitions
- as the date as the unit, to load the data in the daily base, so can reach the real time data performance,  also don't need to load the whole dataset each time, we run something base on the history<br/>
+ use date as the unit, to load the data in the daily base, so can reach the real time data performance, don't need to load the whole dataset each time, we run something base on the history<br/>
 
  backfill is to fix the past hole in the dataset<br/>
- implement with apache spark 
 
-
-
- 
-
+use operator to communicate with the remote system via hooks, for the task such as loading data to database, running a command in a remote environment and submitting a Spark job to a YARN cluster.

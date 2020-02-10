@@ -5,6 +5,7 @@ import requests
 class Configuration:
     def __init__(self,filename):
         with open(filename, 'r') as f:
+            
             self.doc = yaml.load(f, Loader=yaml.FullLoader)
         
     def getMySQLmetadata(self):

@@ -28,7 +28,7 @@ def run():
         # cursor.execute("INSERT INTO whatever (test) values (%s)"%(data)) 
         
         conn.commit() 
-        logging.info('Use kafka as the sink to load data to DWH, this case is mysql')
+        logging.info('Use kafka as the sink to export data to DWH, this case is mysql')
     conn.close() 
 
 # schema = avro.schema.parse(open(schemaAvro).read())
@@ -37,22 +37,5 @@ def run():
         # # reader = avro.io.DatumReader(schema)
         # # user1 = reader.read(decoder)
         # insertIntoDatabase(bytes_reader) 
-        
 if __name__=='__main__':
-    run() 
- 
-#TODO : implement with JDBC driver 
-# curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
-#         "name": "jdbc_source_mysql_01",
-#         "config": {
-#                 "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
-#                 "connection.url": "jdbc:mysql://mysql:3306/kafka_test",
-#                 "connection.user": "user",
-#                 "connection.password": "password",
-#                 # "topic.prefix": "mysql-01-",
-#                 "mode":"bulk",
-#                 "poll.interval.ms" : 3600000
-#                 }
-#         }'
-
-# mysql-connector-java-8.0.13.jar   
+    run()

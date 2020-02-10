@@ -1,20 +1,24 @@
 from config import * 
 
+
 def get_weather():
-    paramaters={'q':'Shanghai, CN', 'appid':API_KEY}
+    params={'q':'Shanghai, CN', 'appid':API_KEY}
 
-    result= requests.get('http://api.openweathermap.org/data/2.5/weather?', paramaters)
+    result= requests.get('http://api.openweathermap.org/data/2.5/weather?', params)
 
-    if result.status_code==200:
-        json_data=result.json() 
-        fileName= str(dt.now().date())+'.json'
-        tot_name=os.path.join(os.path.dirname(__file__),'data', fileName)
-        logging.info('Connection is OK') 
+    if result.status_code == 200:
+        logger.info('Connection is OK')
+        json_data =result.json() 
+        fileName = str(dt.now().date())+'.json' 
+        tot = os.path.join(os.getcwd(), fileName)
+        
+        time.sleep(1)
 
-        with open (tot_name, 'w') as outputfile:
+
+        with open (tot, 'w') as outputfile:
             json.dump(json_data, outputfile)
     else:
-        logging.warn('ERROR for API data fetching') 
+        logger.warn('ERROR for API data fetching') 
 
 if __name__=='__main__':
-    get_weather() 
+    get_weather()

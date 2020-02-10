@@ -16,6 +16,16 @@ import requests
 import numpy as np
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
+from pathlib import Path 
+import time 
 
+logging.basicConfig(format= '%(asctime)s - %(message)s', datefmt='[%H:%M:%S]')
+logger= logging.getLogger()
+logger.setLevel(logging.INFO)
 
 API_KEY= 'cd3465baaf7330bdd87969e8d733f734' 
+HOST='localhost'
+DB='airflow_test'
+USER='root'
+pswd='password'
+table='city_weather'

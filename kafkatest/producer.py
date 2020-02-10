@@ -13,7 +13,7 @@ def create_producer():
             # values.append(v)
             producer.send('kafkadev', v) 
             # producer.send('topictest',b'test %d run' %v) 
-            print('Use Kafka as source to get API data is OK!') 
+            print('Use Kafka as source to import API data is OK!') 
             sleep(1)  
 
 if __name__=='__main__':
