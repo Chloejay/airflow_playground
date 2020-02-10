@@ -56,8 +56,6 @@ coverage.xml
 local_settings.py
 db.sqlite3
 
-logs
-
 # Flask stuff:
 instance/
 .webassets-cache
@@ -106,3 +104,4 @@ venv.bak/
 .mypy_cache/
 .DS_Store
 logs
+
