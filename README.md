@@ -37,9 +37,8 @@ $ pip install confluent-kafka[avro]
 
 yml load deprecation issue, see its <a href='https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation'>repo </a> 
 
-
+```
 echo 'export PYTHONPATH=$PYTHONPATH:./anaconda3/lib/python3.7/' >> .bashrc
-
 $ brew install zlib
 $ brew install sqlite
 $ export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"
@@ -50,14 +49,7 @@ $ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"
 $ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/sqlite/lib/pkgconfig"
 $ pyenv install 3.6.0 
 $ pyenv global 3.6.0 
+```
 
-
-
-<img src='kafkatest/docs/data-highway-architecture.png'>
-<i><small>img source: from tutorial</small></i> 
-
-<br/>
-
-Spark streaming 
-connect with DB with JDBC Sink 
-implement with spark streaming as the "T" step after "E" from loading data from the source and before the "L" to send the data to the destination DEST. 
+<!-- <img src='kafkatest/docs/data-highway-architecture.png'>
+<i><small>img source: from tutorial</small></i>  -->
