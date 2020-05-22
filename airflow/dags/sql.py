@@ -2,13 +2,13 @@ import sys
 sys.path.append('..') 
 from config import * 
 
-def create_db(host:str, db:str, user: str, pswd:str, table: str)-> None:
-    engine= create_engine('mysql+mysqldb://%s:%s@localhost/%s'%(user,pswd, db))
+def create_db(host:str, db:str, user: str, pswd: str, table: str)-> None:
+    engine = create_engine('mysql+mysqldb://%s:%s@localhost/%s'%(user,pswd, db))
 
     if not database_exists(engine.url):
         create_database(engine.url)
         try:
-            conn=MySQLdb.connect(host=host,database=db, user= user, passwd= pswd)
+            conn=MySQLdb.connect(host=host,database=db, user= user, passwd = pswd)
             logger.info('successfully connect to db')
             curr= conn.cursor() 
             create_table="""
@@ -34,4 +34,4 @@ def create_db(host:str, db:str, user: str, pswd:str, table: str)-> None:
             logger.warning('failed to connect to db') 
 
          
-create_db(HOST, DB, USER, pswd,table) 
+create_db(HOST, DB, USER, PSWD, TABLE)

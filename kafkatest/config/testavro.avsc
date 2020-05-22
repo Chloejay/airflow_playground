@@ -1,0 +1,16 @@
+{
+    'namespace': 'testavro',
+    'name':'nameAgeTest',
+    'type':'record',
+    'field':[
+        {
+            'name':'name',
+            'type':'string'
+            },
+        {
+            'name':'age',
+            'type':'int'
+        }
+    ]
+
+}

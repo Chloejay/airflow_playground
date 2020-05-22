@@ -1,5 +1,4 @@
-{
-    "namespace": "record",
+{"namespace": "testkafka.avro",
     "type": "record",
     "name": "DefaultEventRecord",
     "fields": [

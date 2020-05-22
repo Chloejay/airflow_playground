@@ -15,7 +15,7 @@ def run():
                                 group_id=consumergroup) 
                                 # value_deserializer=lambda x: loads(x.decode('utf-8')) 
 
-    consumer.subscribe(['kafkadev'])
+    consumer.subscribe(['kafkatesting'])
     for message in consumer:
         print(str(message)) 
         # data=json.loads(message.value)  

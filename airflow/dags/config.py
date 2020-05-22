@@ -23,9 +23,9 @@ logging.basicConfig(format= '%(asctime)s - %(message)s', datefmt='[%H:%M:%S]')
 logger= logging.getLogger()
 logger.setLevel(logging.INFO)
 
-API_KEY= 'cd3465baaf7330bdd87969e8d733f734' 
-HOST='localhost'
-DB='airflow_test'
-USER='root'
-pswd='password'
-table='city_weather'
+API_KEY = 'cd3465baaf7330bdd87969e8d733f734' 
+HOST ='localhost'
+DB ='airflow_test'
+USER ='root'
+PSWD ='password'
+TABLE ='city_weather'

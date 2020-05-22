@@ -1,13 +1,13 @@
 from config import *  
 
-def load(ds, **kwargs):
+def load(): #a python function to call, PythonOperator callable
     mysql_hook = MySqlHook(mysql_conn_id ='mysql_db')
     fileName = str(dt.now().date())+'.json'
     print(os.getcwd()) 
     tot = os.path.join(os.getcwd(), fileName)
 
-    with open(tot, 'r') as inputfile:
-        data=json.load(inputfile)
+    with open(tot, 'r') as inputf:
+        data=json.load(inputf)
 
     city = str(data['name'])
     country = str(data['sys']['country']) 
@@ -24,8 +24,8 @@ def load(ds, **kwargs):
     list_= [lat, lon, humid, press, min_temp, max_temp, temp]
     for valid in np.isnan(list_):
         if valid is False:
-            valid_data= False 
-            break;
+            valid_data = False 
+            break
 
     row= (city,country, lat, lon, humid, press, min_temp,max_temp, temp, weather)
 
@@ -33,7 +33,7 @@ def load(ds, **kwargs):
     max_temp, temp, weather) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
     """
     if valid_data is True:
-        mysql_hook.run(query, parameters= row) 
+        mysql_hook.run(query, parameters = row) 
         
 default_args = {
     'owner':'cj',
@@ -44,17 +44,17 @@ default_args = {
     'retry_delay':timedelta(minutes=4)
     }
 
-dag = DAG(
-    dag_id = 'getWeather_flow',
-    default_args = default_args, 
+dag = DAG(#init DAG object
+    dag_id = 'getWeather_flow', #name of DAG
+    default_args = default_args,
     start_date = dt(2019,11,10),
-    schedule_interval = "@daily",
+    schedule_interval = "@daily", #scheduler, once/day
 )
 
 api_call= BashOperator(
     task_id ='get_weather',
     bash_command ='Python ~/airflow/dags/getdata.py',
-    dag = dag
+    dag = dag #reference to DAG variable
 )
 
 create_database= BashOperator(
@@ -63,11 +63,13 @@ create_database= BashOperator(
     dag= dag
 )
 
-load_data= PythonOperator(
+load_data= PythonOperator( #PythonOperator
     task_id='transform_load',
     provide_context= True,
-    python_callable= load,
+    python_callable= load, #point to python function to execute
+    # op_kwargs= {"":""}
     dag= dag
 )
 
+# set order of execution of tasks
 api_call >> create_database >> load_data 

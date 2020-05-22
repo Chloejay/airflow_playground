@@ -9,7 +9,7 @@ broker:
  - port: 9092 
 
 consumer:
- - topic: kafkadev
+ - topic: avrofix
  - consumergroup: testv1
 
 avro:

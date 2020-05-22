@@ -11,7 +11,7 @@ def create_producer():
     for k,v in data.items(): 
             # producer.send('topictest', k) 
             # values.append(v)
-            producer.send('kafkadev', v) 
+            producer.send('kafkatesting', v) 
             # producer.send('topictest',b'test %d run' %v) 
             print('Use Kafka as source to import API data is OK!') 
             sleep(1)  

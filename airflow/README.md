@@ -2,17 +2,16 @@ airflow playground
 
 ```bash
 #install airflow 
-$ export AIRFLOW_HOME=<path_to_airflow_home>
+$ export AIRFLOW_HOME=<path_to_airflow_home> #add to .bash_profile
 $ pip install airflow[postgres]||[mysql] 
-#init the metadata db
-$ airflow initdb 
 ```
-
 ```bash
-$ airflow webserver -p 8080
-$ airflow scheduler
+#init the metadata db
+$airflow initdb
+$cp dag.py ~/airflow/dags
+$airflow webserver -p 8080
+$airflow scheduler
 ```
-
 
 <figcaption>
 <img src='dag.png'/>
@@ -43,8 +42,8 @@ $ airflow scheduler
  ```
  
  #### how to add the data incrementally or in partitions
- use date as the unit, to load the data in the daily base, so can reach the real time data performance, don't need to load the whole dataset each time, we run something base on the history<br/>
+use date as an unit, to load data as a daily base, don't need to load the whole dataset each time, to run something base on the history<br/>
 
- backfill is to fix the past hole in the dataset<br/>
+backfill is to fix the past hole in the dataset, loading and reproducing the past dataset.<br/>
 
 use operator to communicate with the remote system via hooks, for the task such as loading data to database, running a command in a remote environment and submitting a Spark job to a YARN cluster.
