@@ -1,11 +1,11 @@
 #### Airflow ETL
 ```bash
-#install airflow 
-$ export AIRFLOW_HOME=<path_to_airflow_home> #add to .
-bash_profile
+#install airflow
+#add to . bash_profile
+$ export AIRFLOW_HOME=<path_to_airflow_home>
 
 # load data to MySQL with MySQL database, use hook and MySqlOperator
-$ pip install airflow[postgres]||[mysql] 
+$ pip install airflow[postgres]||[mysql]
 ```
 
 ```bash
@@ -31,14 +31,14 @@ $airflow scheduler
 ├── logs
 ├── packages
 └── tests
-
 ```
 - use `Flake8` and `Black` to check static code style and code formatter
 - use `Github Action` for CI/CD, add `.github/workflows/airflow.yaml`
 
 <hr>
-#### Kafka data pipeline (check streampipe)
-use <strong>kafka-python</strong> as main framework, along with zookeeper, and other kafka related message queue tool. <br/> 
+
+#### Kafka data pipeline (check <a href="https://github.com/Chloejay/streampipe">streampipe</a>)
+use <strong>kafka-python</strong> as main framework, along with zookeeper, and other kafka related message queue tool. <br/>
 <!-- ``` dir 'config/server.properties' ```  -->
 
 <img src='kafkatest/docs/kafka.png'> 
