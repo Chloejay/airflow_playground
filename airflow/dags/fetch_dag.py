@@ -1,13 +1,14 @@
 from config import *  
 
-def load(): #a python function to call, PythonOperator callable
+"a python function to call, PythonOperator callable"
+def _load(): 
     mysql_hook = MySqlHook(mysql_conn_id ='mysql_db')
     fileName = str(dt.now().date())+'.json'
     print(os.getcwd()) 
     tot = os.path.join(os.getcwd(), fileName)
 
-    with open(tot, 'r') as inputf:
-        data=json.load(inputf)
+    with open(tot, 'r') as input:
+        data=json.load(input)
 
     city = str(data['name'])
     country = str(data['sys']['country']) 
@@ -27,7 +28,7 @@ def load(): #a python function to call, PythonOperator callable
             valid_data = False 
             break
 
-    row= (city,country, lat, lon, humid, press, min_temp,max_temp, temp, weather)
+    row = (city,country, lat, lon, humid, press, min_temp,max_temp, temp, weather)
 
     query = """insert into city_weather (city, country, latitude, longitude, humudity, pressure, min_temp, 
     max_temp, temp, weather) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
@@ -48,7 +49,9 @@ dag = DAG(#init DAG object
     dag_id = 'getWeather_flow', #name of DAG
     default_args = default_args,
     start_date = dt(2019,11,10),
-    schedule_interval = "@daily", #scheduler, once/day
+    end_date= dt(2020,5,10),
+    schedule_interval = "@daily",
+    template_searchpath="/tmp",
 )
 
 api_call= BashOperator(
@@ -63,13 +66,36 @@ create_database= BashOperator(
     dag= dag
 )
 
+# use Hook to communicate with
 load_data= PythonOperator( #PythonOperator
     task_id='transform_load',
+    python_callable= _load, #point to python function to execute
     provide_context= True,
-    python_callable= load, #point to python function to execute
+    # op_args=""
     # op_kwargs= {"":""}
-    dag= dag
+    pool = "dag_pool",
+    dag = dag
 )
+
+# or directly use MySqlOperator
+write_to_mysql= MySqlHook(
+    task_id="write_to_mysql",
+    # connection, identifier holding the credentials to MySQL database;
+    mysql_conn_id="",
+    sql= "etl.sql", #TODO
+    dag=dag,
+)
+
+"""Can use Airflow CLI to add database connection,
+airflow connections --add \
+--conn_id etl_mysql \
+--conn_type mysql \
+--conn_host localhost \
+--conn_login root \
+--conn_password password
+"""
 
 # set order of execution of tasks
 api_call >> create_database >> load_data 
+# or use mysql hook
+api_call >> create_database >> write_to_mysql 

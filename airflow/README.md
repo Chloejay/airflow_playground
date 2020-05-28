@@ -1,23 +1,3 @@
-airflow playground 
-
-```bash
-#install airflow 
-$ export AIRFLOW_HOME=<path_to_airflow_home> #add to .bash_profile
-$ pip install airflow[postgres]||[mysql] 
-```
-```bash
-#init the metadata db
-$airflow initdb
-$cp dag.py ~/airflow/dags
-$airflow webserver -p 8080
-$airflow scheduler
-```
-
-<figcaption>
-<img src='dag.png'/>
-<p style='padding-left: 120px'>the sample data running dag</p>
-<figcCaption>
-
 ```bash
 #note for the scheduler style format 
  ┌─────── minute (0 - 59)
@@ -40,7 +20,7 @@ $airflow scheduler
  @monthly  Run once a month at midnight on the first day of the month.   0 0 1 * *
  @yearly   Run once a year at midnight on January 1.    0 0 1 1 *
  ```
- 
+
  #### how to add the data incrementally or in partitions
 use date as an unit, to load data as a daily base, don't need to load the whole dataset each time, to run something base on the history<br/>
 

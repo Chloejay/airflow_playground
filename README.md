@@ -1,7 +1,44 @@
-<h4>Kafka data pipeline</h4> 
-<h6> after airflow</h6> 
-use <strong>kafka-python</strong> as main learning framework, along with zookeeper, and other kafka related from message queue tool. <br/> 
+#### Airflow ETL
+```bash
+#install airflow 
+$ export AIRFLOW_HOME=<path_to_airflow_home> #add to .
+bash_profile
 
+# load data to MySQL with MySQL database, use hook and MySqlOperator
+$ pip install airflow[postgres]||[mysql] 
+```
+
+```bash
+#init the metadata db
+$airflow initdb
+$cp dag.py ~/airflow/dags
+
+$airflow webserver -p 8080
+$airflow scheduler
+```
+
+<figcaption>
+<img src='airflow/dag.png'/>
+<p style='padding-left: 140px'><i>the data running dag</i></p>
+<figcCaption>
+
+<i>airflow main directory structure</i>
+```bash
+(base) Chloes-MacBook-Pro:airflow chloeji$ tree -d -L 1
+.
+├── __pycache__
+├── dags
+├── logs
+├── packages
+└── tests
+
+```
+- use `Flake8` and `Black` to check static code style and code formatter
+- use `Github Action` for CI/CD, add `.github/workflows/airflow.yaml`
+
+<hr>
+#### Kafka data pipeline (check streampipe)
+use <strong>kafka-python</strong> as main framework, along with zookeeper, and other kafka related message queue tool. <br/> 
 <!-- ``` dir 'config/server.properties' ```  -->
 
 <img src='kafkatest/docs/kafka.png'> 
