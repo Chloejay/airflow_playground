@@ -1,10 +1,9 @@
 from config import *  
 
-"a python function to call, PythonOperator callable"
+
 def _load(): 
     mysql_hook = MySqlHook(mysql_conn_id ='mysql_db')
     fileName = str(dt.now().date())+'.json'
-    # print(os.getcwd()) 
     tot = os.path.join(os.getcwd(), fileName)
 
     with open(tot, 'r') as input_data:
@@ -30,9 +29,9 @@ def _load():
 
     row = (city,country, lat, lon, humid, press, min_temp,max_temp, temp, weather)
 
-    query = """insert into city_weather (city, country, latitude, longitude, humidity, pressure, min_temp, 
-    max_temp, temp, weather) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
-    """
+    query = """insert into city_weather (city, country, latitude, longitude, humidity, pressure, \
+        min_temp, max_temp, temp, weather) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+        
     if valid_data is True:
         mysql_hook.run(query, parameters = row) 
         
@@ -42,7 +41,7 @@ default_args = {
     'email':['ji.jie@edhec.com'],
     'email_on_retry':False,
     'retries':5,
-    'retry_delay':timedelta(minutes=4)
+    'retry_delay':timedelta(minutes= 4)
     }
 
 dag = DAG(
@@ -66,7 +65,7 @@ create_database= BashOperator(
     dag= dag
 )
 
-# use Hook to load data to persisted database
+# use Hook to load data in persisted database
 load_data= PythonOperator(
     task_id='transform_load',
     python_callable= _load, 
@@ -78,7 +77,7 @@ load_data= PythonOperator(
 
 write_to_mysql= MySqlOperator(#under the hook, MysqlHook do the hard work;
     task_id="write_to_mysql",
-    # connection, identifier holding the credentials to MySQL database;
+    # credentials;
     mysql_conn_id="etl_mysql",
     sql= "etl.sql", #TODO, tempatable script with jinja
     dag=dag,
@@ -95,7 +94,6 @@ airflow connections --add \
 #Successfully added `conn_id`=etl_mysql : mysql://root:password@localhost:
 """
 
-# set order of execution of tasks
 api_call >> create_database >> load_data 
 # or
 # api_call >> create_database >> write_to_mysql
