@@ -2,7 +2,6 @@ import sys
 sys.path.append('..') 
 from config import * 
 
-# load credentials from Airflow metastore
 from airflow.hooks.base_hook import BaseHook
 
 """hook
@@ -40,7 +39,8 @@ def create_db(host:str, db:str, user: str, pswd: str, table: str)-> None:
             conn_id.commit()
             conn_id.close()  
 
-        except:
+        except Expection as e:
+            logger.info(str(e))
             logger.warning('failed to connect to db') 
 
          

@@ -9,9 +9,7 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.email_operator import EmailOperator 
 from airflow.operators.mysql_operator import MySqlOperator
 from airflow.hooks.mysql_hook import MySqlHook
-
-from datetime import timedelta
-from datetime import datetime as dt 
+from datetime import timedelta, datetime as dt 
 import MySQLdb
 import logging 
 import os,sys
@@ -25,7 +23,8 @@ from airflow.models import Variables
 import yaml
 from pprint import pprint 
 
-logging.basicConfig(format= '%(asctime)s - %(message)s', datefmt='[%H:%M:%S]')
+# config the logging files to dir logs/
+logging.basicConfig(filename='logs/etl.log', format= '%(asctime)s - %(message)s', datefmt='[%H:%M:%S]')
 logger= logging.getLogger()
 logger.setLevel(logging.INFO)
 

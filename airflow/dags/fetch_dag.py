@@ -4,11 +4,11 @@ from config import *
 def _load(): 
     mysql_hook = MySqlHook(mysql_conn_id ='mysql_db')
     fileName = str(dt.now().date())+'.json'
-    print(os.getcwd()) 
+    # print(os.getcwd()) 
     tot = os.path.join(os.getcwd(), fileName)
 
-    with open(tot, 'r') as input:
-        data=json.load(input)
+    with open(tot, 'r') as input_data:
+        data=json.load(input_data)
 
     city = str(data['name'])
     country = str(data['sys']['country']) 
@@ -25,19 +25,19 @@ def _load():
     list_= [lat, lon, humid, press, min_temp, max_temp, temp]
     for valid in np.isnan(list_):
         if valid is False:
-            valid_data = False 
+            valid_data = False
             break
 
     row = (city,country, lat, lon, humid, press, min_temp,max_temp, temp, weather)
 
-    query = """insert into city_weather (city, country, latitude, longitude, humudity, pressure, min_temp, 
+    query = """insert into city_weather (city, country, latitude, longitude, humidity, pressure, min_temp, 
     max_temp, temp, weather) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
     """
     if valid_data is True:
         mysql_hook.run(query, parameters = row) 
         
 default_args = {
-    'owner':'cj',
+    'owner':'chloeji',
     'depends_on_past':False,
     'email':['ji.jie@edhec.com'],
     'email_on_retry':False,
@@ -45,8 +45,8 @@ default_args = {
     'retry_delay':timedelta(minutes=4)
     }
 
-dag = DAG(#init DAG object
-    dag_id = 'getWeather_flow', #name of DAG
+dag = DAG(
+    dag_id = 'getWeather_flow',
     default_args = default_args,
     start_date = dt(2019,11,10),
     end_date= dt(2020,5,10),
@@ -57,7 +57,7 @@ dag = DAG(#init DAG object
 api_call= BashOperator(
     task_id ='get_weather',
     bash_command ='Python ~/airflow/dags/getdata.py',
-    dag = dag #reference to DAG variable
+    dag = dag
 )
 
 create_database= BashOperator(
@@ -66,36 +66,36 @@ create_database= BashOperator(
     dag= dag
 )
 
-# use Hook to communicate with
-load_data= PythonOperator( #PythonOperator
+# use Hook to load data to persisted database
+load_data= PythonOperator(
     task_id='transform_load',
-    python_callable= _load, #point to python function to execute
+    python_callable= _load, 
     provide_context= True,
-    # op_args=""
-    # op_kwargs= {"":""}
+    # op_kwargs= {"":""} #no params in `_load` func for this case; 
     pool = "dag_pool",
     dag = dag
 )
 
-# or directly use MySqlOperator
-write_to_mysql= MySqlHook(
+write_to_mysql= MySqlOperator(#under the hook, MysqlHook do the hard work;
     task_id="write_to_mysql",
     # connection, identifier holding the credentials to MySQL database;
-    mysql_conn_id="",
-    sql= "etl.sql", #TODO
+    mysql_conn_id="etl_mysql",
+    sql= "etl.sql", #TODO, tempatable script with jinja
     dag=dag,
 )
 
-"""Can use Airflow CLI to add database connection,
+"""Can use Airflow CLI to add database connection instead of to use UI,
 airflow connections --add \
 --conn_id etl_mysql \
 --conn_type mysql \
 --conn_host localhost \
 --conn_login root \
 --conn_password password
+
+#Successfully added `conn_id`=etl_mysql : mysql://root:password@localhost:
 """
 
 # set order of execution of tasks
 api_call >> create_database >> load_data 
-# or use mysql hook
-api_call >> create_database >> write_to_mysql 
+# or
+# api_call >> create_database >> write_to_mysql

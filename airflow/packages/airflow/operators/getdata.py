@@ -13,10 +13,14 @@ def get_weather():
         tot = os.path.join(os.getcwd(), fileName)
         
         time.sleep(1)
-
-
+        
         with open(tot, 'w') as outputfile:
             json.dump(json_data, outputfile)
+
+        QUERY= "..." #define query to exec extracted data; 
+        # TODO add directly the extracted json file to database;
+        wth open("tmp/etl.sql", "w") as f:
+            f.write(QUERY)
 
     else:
         logger.warn('Failed to connect API for data fetching')
